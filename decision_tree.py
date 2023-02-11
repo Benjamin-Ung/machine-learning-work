@@ -28,11 +28,22 @@ with open('contact_lens.csv', 'r') as csvfile:
 #4D array X. For instance Young = 1, Prepresbyopic = 2, Presbyopic = 3
 # so X = [[1, 1, 1, 1], [2, 2, 2, 2], ...]]
 #--> add your Python code here
-X = [[]]
+X = [
+  [1,1,1,1],
+  [2,1,1,2],
+  [3,1,1,1],
+  [3,1,1,2],
+  [2,1,2,2],
+  [1,1,2,2],
+  [1,2,1,1],
+  [3,1,2,1],
+  [2,2,1,1],
+  [1,1,2,1]
+]
 #transform the original categorical training classes into numbers and add to the 
 #vector Y. For instance Yes = 1, No = 2, so Y = [1, 1, 2, 2, ...]
 #--> addd your Python code here
-Y =[[]]
+Y =[1,1,1,2,2,2,1,1,1,2]
 
 #fitting the decision tree to the data
 clf = tree.DecisionTreeClassifier(criterion = 'entropy')
