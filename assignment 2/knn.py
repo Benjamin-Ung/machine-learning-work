@@ -22,26 +22,30 @@ with open('binary_points.csv', 'r') as csvfile:
          db.append (row)
 
 #loop your data to allow each instance to be your test set
-error_counter = 0
+error_Xcounter = 0
 for x in db:
 
     #add the training features to the 2D array X removing the instance that will be used for testing in this iteration. For instance, X = [[1, 3], [2, 1,], ...]]. Convert each feature value to
     # float to avoid warning messages
+    Xcounter = 0
     db_copy = [0 for x in range(len(db) - 1)]
-    for i in range(len(db) - 1):
-        if i != x:
-            db_copy[i] = (float(db[i][0]), float(db[i][1]) )
+    for i in range(len(db)):
+        if db[i] != x:
+            db_copy[Xcounter] = (float(db[i][0]), float(db[i][1]) )
+            Xcounter += 1
     X = db_copy
 
     #transform the original training classes to numbers and add to the vector Y removing the instance that will be used for testing in this iteration. For instance, Y = [1, 2, ,...]. 
     # Convert each feature value to float to avoid warning messages
+    Ycounter = 0
     db_class = [0 for x in range(len(db) - 1)]
-    for i in range(len(db) - 1):
-        if i != x:
-            db_class[i] = db[i][2]
+    for i in range(len(db)):
+        if db[i] != x:
+            db_class[Ycounter] = db[i][2]
+            Ycounter += 1
     Y = db_class
     #store the test sample of this iteration in the vector testSample
-    testSample = [x[0],x[1] ]
+    testSample = [[float(x[0]), float(x[1])]]
 
     #fitting the knn to the data
     clf = KNeighborsClassifier(n_neighbors=1, p=2)
@@ -53,8 +57,8 @@ for x in db:
 
     #compare the prediction with the true label of the test instance to start calculating the error rate.
     if(class_predicted != x[2]):
-        error_counter += 1
+        error_Xcounter += 1
 
 #print the error rate
-error_rate = float(error_counter) / (float(len(db)) )
-print("The error rate for 1NN: " + error_rate)
+error_rate = float(error_Xcounter) / (float(len(db)) )
+print("The error rate for 1NN: " + str(error_rate))
