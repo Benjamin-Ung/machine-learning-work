@@ -1,9 +1,9 @@
 #-------------------------------------------------------------------------
-# AUTHOR: your name
+# AUTHOR: Benjamin Ung
 # FILENAME: title of the source file
 # SPECIFICATION: description of the program
 # FOR: CS 4210- Assignment #2
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 1 hr
 #-----------------------------------------------------------*/
 
 #IMPORTANT NOTE: DO NOT USE ANY ADVANCED PYTHON LIBRARY TO COMPLETE THIS CODE SUCH AS numpy OR pandas. You have to work here only with standard vectors and arrays
@@ -22,38 +22,39 @@ with open('binary_points.csv', 'r') as csvfile:
          db.append (row)
 
 #loop your data to allow each instance to be your test set
-for ? in db:
+error_counter = 0
+for x in db:
 
     #add the training features to the 2D array X removing the instance that will be used for testing in this iteration. For instance, X = [[1, 3], [2, 1,], ...]]. Convert each feature value to
     # float to avoid warning messages
-    #--> add your Python code here
-    # X =
+    db_copy = [0 for x in range(len(db) - 1)]
+    for i in range(len(db) - 1):
+        if i != x:
+            db_copy[i] = (float(db[i][0]), float(db[i][1]) )
+    X = db_copy
 
-    #transform the original training classes to numbers and add to the vector Y removing the instance that will be used for testing in this iteration. For instance, Y = [1, 2, ,...]. Convert each
-    #  feature value to float to avoid warning messages
-    #--> add your Python code here
-    # Y =
-
+    #transform the original training classes to numbers and add to the vector Y removing the instance that will be used for testing in this iteration. For instance, Y = [1, 2, ,...]. 
+    # Convert each feature value to float to avoid warning messages
+    db_class = [0 for x in range(len(db) - 1)]
+    for i in range(len(db) - 1):
+        if i != x:
+            db_class[i] = db[i][2]
+    Y = db_class
     #store the test sample of this iteration in the vector testSample
-    #--> add your Python code here
-    #testSample =
+    testSample = [x[0],x[1] ]
 
     #fitting the knn to the data
     clf = KNeighborsClassifier(n_neighbors=1, p=2)
     clf = clf.fit(X, Y)
 
     #use your test sample in this iteration to make the class prediction. For instance:
-    #class_predicted = clf.predict([[1, 2]])[0]
-    #--> add your Python code here
+    class_predicted = clf.predict(testSample)
+    print(class_predicted)
 
     #compare the prediction with the true label of the test instance to start calculating the error rate.
-    #--> add your Python code here
+    if(class_predicted != x[2]):
+        error_counter += 1
 
 #print the error rate
-#--> add your Python code here
-
-
-
-
-
-
+error_rate = float(error_counter) / (float(len(db)) )
+print("The error rate for 1NN: " + error_rate)

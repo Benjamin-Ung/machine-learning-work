@@ -3,7 +3,7 @@
 # FILENAME: decision_tree_2.py
 # SPECIFICATION: 
 # FOR: CS 4210- Assignment #2
-# TIME SPENT: 
+# TIME SPENT: 2-3 hrs?
 #-----------------------------------------------------------*/
 #IMPORTANT NOTE: DO NOT USE ANY ADVANCED PYTHON LIBRARY TO COMPLETE THIS CODE SUCH 
 #AS numpy OR pandas. You have to work here only with standard
