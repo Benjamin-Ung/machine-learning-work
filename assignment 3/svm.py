@@ -31,7 +31,6 @@ y_test = np.array(df.values)[:,-1] #getting the last field to create the class t
 
 #created 4 nested for loops that will iterate through the values of c, degree, kernel, and decision_function_shape
 best = 0
-best_comb = {}
 
 for i in c:
     for j in degree:
@@ -49,15 +48,15 @@ for i in c:
                 #hint: to iterate over two collections simultaneously, use zip()
                 #Example. for (x_testSample, y_testSample) in zip(X_test, y_test):
                 #to make a prediction do: clf.predict([x_testSample])
-                X_testSample = list(zip(X_test,y_test))
-                accuracy = clf.predict([X_test])
-                
+                totalright = 0
+                for(X_testSample, y_testSample) in list(zip(X_test,y_test)):
+                    if clf.predict([X_testSample] == y_testSample):
+                        totalright += 1
                 #check if the calculated accuracy is higher than the previously one calculated. If so, update the highest accuracy and print it together
                 #with the SVM hyperparameters. Example: "Highest SVM accuracy so far: 0.92, Parameters: a=1, degree=2, kernel= poly, decision_function_shape = 'ovo'"
-                if(accuracy > best):
-                    best = accuracy
-                    best_comb = {i,j,k,d}
-                print(f"Highest SVM accuracy so far: {best}, Parameters: a={best_comb[0]}, degree={best_comb[1]},kernel={best_comb[2]},decision function shape={best_comb[3]}" )
+                if(totalright/len(X_test) > best):
+                    best = totalright/len(X_test)
+                    print(f"Highest SVM accuracy so far: {best}, Parameters: a={i}, degree={j},kernel={k},decision function shape={d}" )
 
 
 
