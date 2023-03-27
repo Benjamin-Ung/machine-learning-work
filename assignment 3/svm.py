@@ -50,12 +50,12 @@ for i in c:
                 #to make a prediction do: clf.predict([x_testSample])
                 totalright = 0
                 for(X_testSample, y_testSample) in list(zip(X_test,y_test)):
-                    if clf.predict([X_testSample] == y_testSample):
+                    if clf.predict([X_testSample]) == y_testSample:
                         totalright += 1
                 #check if the calculated accuracy is higher than the previously one calculated. If so, update the highest accuracy and print it together
                 #with the SVM hyperparameters. Example: "Highest SVM accuracy so far: 0.92, Parameters: a=1, degree=2, kernel= poly, decision_function_shape = 'ovo'"
                 if(totalright/len(X_test) > best):
-                    best = totalright/len(X_test)
+                    best = totalright/len(y_test)
                     print(f"Highest SVM accuracy so far: {best}, Parameters: a={i}, degree={j},kernel={k},decision function shape={d}" )
 
 
