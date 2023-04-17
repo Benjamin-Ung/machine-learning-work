@@ -1,9 +1,9 @@
 #-------------------------------------------------------------------------
-# AUTHOR: your name
+# AUTHOR: Benjamin Ung
 # FILENAME: title of the source file
 # SPECIFICATION: description of the program
 # FOR: CS 4210- Assignment #4
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 30 min
 #-----------------------------------------------------------*/
 
 #IMPORTANT NOTE: YOU CAN USE ANY PYTHON LIBRARY TO COMPLETE YOUR CODE.
@@ -16,26 +16,31 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def build_model(n_hidden, n_neurons_hidden, n_neurons_output, learning_rate):
-
     #-->add your Pyhton code here
 
     #Creating the Neural Network using the Sequential API
     #model = keras.models.Sequential()
     #model.add(keras.layers.Flatten(input_shape=[28, 28]))                                #input layer
+    model = keras.models.Sequential()
+    model.add(keras.layers.Flatten(input_shape = [28,28]))
 
     #iterate over the number of hidden layers to create the hidden layers:
     #model.add(keras.layers.Dense(n_neurons_hidden, activation="relu"))                   #hidden layer with ReLU activation function
+    model.add(keras.layers.Dense(n_neurons_hidden, activation = "relu"))
 
     #output layer
     #model.add(keras.layers.Dense(n_neurons_output, activation="softmax"))                #output layer with one neural for each class and the softmax activation function since the classes are exclusive
+    model.add(keras.layers.Dense(n_neurons_output, activation="softmax"))
 
     #defining the learning rate
     #opt = keras.optimizers.SGD(learning_rate)
+    opt = keras.optimizers.SGD(learning_rate)
 
     #Compiling the Model specifying the loss function and the optimizer to use.
     #model.compile(loss="sparse_categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
     #return model
-
+    model.compile(loss="sparse_categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
+    return model
 
 #To install Tensor Flow on your terminal
 #python -m pip install --upgrade tensorflow
@@ -58,24 +63,29 @@ class_names = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", 
 n_hidden = [2, 5, 10]
 n_neurons = [10, 50, 100]
 l_rate = [0.01, 0.05, 0.1]
+highest_accuracy = 0
 
-for :                          #looking or the best parameters w.r.t the number of hidden layers
-    for :                      #looking or the best parameters w.r.t the number of neurons
-        for :                  #looking or the best parameters w.r.t the learning rate
+for h in n_hidden:                          #looking or the best parameters w.r.t the number of hidden layers
+    for n in n_neurons:                      #looking or the best parameters w.r.t the number of neurons
+        for l in l_rate:                  #looking or the best parameters w.r.t the learning rate
 
             #build the model for each combination by calling the function:
             #model = build_model()
-            #-->add your Pyhton code here
+            model = build_model(n_hidden= h ,n_neurons_hidden= n , n_neurons_output = n, learning_rate=l)
 
             #To train the model
             #history = model.fit(X_train, y_train, epochs=5, validation_data=(X_valid, y_valid))  #epochs = number times that the learning algorithm will work through the entire training dataset.
-            #-->add your Pyhton code here
+            history = model.fit(X_train, y_train, epochs=5, validation_data=(X_valid, y_valid))
 
             #Calculate the accuracy of this neural network and store its value if it is the highest so far. To make a prediction, do:
             class_predicted = np.argmax(model.predict(X_test), axis=-1)
-            #-->add your Pyhton code here
+            _, accuracy = model.evaluate(X_test, y_test)
 
-            print("Highest accuracy so far: " + str(highestAccuracy))
+
+            if accuracy> highest_accuracy:
+                highest_accuracy = accuracy
+
+            print("Highest accuracy so far: " + str(highest_accuracy))
             print("Parameters: " + "Number of Hidden Layers: " + str(h) + ",number of neurons: " + str(n) + ",learning rate: " + str(l))
             print()
 

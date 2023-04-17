@@ -1,9 +1,9 @@
 #-------------------------------------------------------------------------
-# AUTHOR: your name
+# AUTHOR: Benjamin Ung
 # FILENAME: title of the source file
 # SPECIFICATION: description of the program
 # FOR: CS 4210- Assignment #4
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 20 min
 #-----------------------------------------------------------*/
 
 #IMPORTANT NOTE: YOU HAVE TO WORK WITH THE PYTHON LIBRARIES numpy AND pandas to complete this code.
@@ -27,14 +27,16 @@ df = pd.read_csv('optdigits.tes', sep=',', header=None) #reading the data by usi
 X_test = np.array(df.values)[:,:64]    #getting the first 64 fields to form the feature data for test
 y_test = np.array(df.values)[:,-1]     #getting the last field to form the class label for test
 
-for : #iterates over n
+bestP = 0
+bestMLP = 0
+for learning_rate in n: #iterates over n
 
-    for : #iterates over r
+    for shuffle_condition in r: #iterates over r
 
         #iterates over both algorithms
         #-->add your Pyhton code here
 
-        for : #iterates over the algorithms
+        for model in {"Perceptron", "MLPClassifier"}: #iterates over the algorithms
 
             #Create a Neural Network classifier
             #if Perceptron then
@@ -42,8 +44,12 @@ for : #iterates over n
             #else:
             #   clf = MLPClassifier() #use those hyperparameters: activation='logistic', learning_rate_init = learning rate, hidden_layer_sizes = number of neurons in the ith hidden layer,
             #                          shuffle = shuffle the training data, max_iter=1000
-            #-->add your Pyhton code here
-
+            
+            if model == "Perceptron":
+                clf = Perceptron(eta0=learning_rate, shuffle=shuffle_condition, max_iter=1000)
+            else:
+                clf = MLPClassifier(activation='logistic', learning_rate_init= learning_rate, hidden_layer_sizes=100, shuffle=shuffle_condition, max_iter=1000)
+    
             #Fit the Neural Network to the training data
             clf.fit(X_training, y_training)
 
@@ -51,13 +57,22 @@ for : #iterates over n
             #hint: to iterate over two collections simultaneously with zip() Example:
             #for (x_testSample, y_testSample) in zip(X_test, y_test):
             #to make a prediction do: clf.predict([x_testSample])
-            #--> add your Python code here
+            totalright = 0
+            for(x_testSample, y_testSample) in zip(X_test, y_test):
+                if clf.predict([x_testSample]) == y_testSample:
+                        totalright += 1
 
             #check if the calculated accuracy is higher than the previously one calculated for each classifier. If so, update the highest accuracy
             #and print it together with the network hyperparameters
             #Example: "Highest Perceptron accuracy so far: 0.88, Parameters: learning rate=0.01, shuffle=True"
             #Example: "Highest MLP accuracy so far: 0.90, Parameters: learning rate=0.02, shuffle=False"
-            #--> add your Python code here
+            if(model == "Perceptron" and totalright/len(X_test) > bestP):
+                bestP = totalright/len(y_test)
+                print(f"Highest Percepton accuracy so far: {bestP}, Parameters: learning rate={learning_rate}, shuffle={shuffle_condition}" )
+            elif(model == "MLPClassifier" and totalright/len(X_test) > bestMLP):
+                bestMLP = totalright/len(y_test)
+                print(f"Highest MLP accuracy so far: {bestMLP}, Parameters: learning rate={learning_rate}, shuffle={shuffle_condition}" )
+
 
 
 

@@ -1,9 +1,9 @@
 #-------------------------------------------------------------------------
-# AUTHOR: your name
+# AUTHOR: Benjamin Ung
 # FILENAME: title of the source file
 # SPECIFICATION: description of the program
 # FOR: CS 4210- Assignment #4
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 
 #-----------------------------------------------------------*/
 
 #IMPORTANT NOTE: DO NOT USE ANY ADVANCED PYTHON LIBRARY TO COMPLETE THIS CODE SUCH AS numpy OR pandas. You have to work here only with standard vectors and arrays
@@ -12,7 +12,9 @@
 from sklearn import tree
 from sklearn.utils import resample
 from sklearn.ensemble import RandomForestClassifier
-
+import csv
+dtrain = ['optdigit.tra']
+dtest = ['optdigit.tes']
 dbTraining = []
 dbTest = []
 X_training = []
@@ -20,13 +22,21 @@ y_training = []
 classVotes = [] #this array will be used to count the votes of each classifier
 
 #reading the training data from a csv file and populate dbTraining
-#--> add your Python code here
+with open(dtrain, 'r') as csvfile:
+   reader = csv.reader(csvfile)
+   for i, row in enumerate(reader):
+         if i > 0: #skipping the header
+            dbTraining.append (row)
 
 #reading the test data from a csv file and populate dbTest
-#--> add your Python code here
+with open(dtest, 'r') as csvfile:
+   reader = csv.reader(csvfile)
+   for i, row in enumerate(reader):
+         if i > 0: #skipping the header
+            dbTest.append (row)
 
 #inititalizing the class votes for each test sample. Example: classVotes.append([0,0,0,0,0,0,0,0,0,0])
-#--> add your Python code here
+classVotes.append([0,0,0,0,0,0,0,0,0,0])
 
 print("Started my base and ensemble classifier ...")
 
@@ -35,7 +45,8 @@ for k in range(20): #we will create 20 bootstrap samples here (k = 20). One clas
   bootstrapSample = resample(dbTraining, n_samples=len(dbTraining), replace=True)
 
   #populate the values of X_training and y_training by using the bootstrapSample
-  #--> add your Python code here
+  X_training = bootstrapSample
+  y_training = 0
 
   #fitting the decision tree to the data
   clf = tree.DecisionTreeClassifier(criterion = 'entropy', max_depth=None) #we will use a single decision tree without pruning it
@@ -51,7 +62,7 @@ for k in range(20): #we will create 20 bootstrap samples here (k = 20). One clas
       #--> add your Python code here
 
       if k == 0: #for only the first base classifier, compare the prediction with the true label of the test sample here to start calculating its accuracy
-         #--> add your Python code here
+         pass
 
   if k == 0: #for only the first base classifier, print its accuracy here
      #--> add your Python code here
