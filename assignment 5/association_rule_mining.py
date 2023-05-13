@@ -42,7 +42,11 @@ encoded_vals = []
 for index, row in df.iterrows():
 
     labels = {}
-
+    for item in itemset:
+        labels[item] = 0
+    for element in row:
+        if element in itemset:
+            labels[element] = 1
     encoded_vals.append(labels)
 
 #adding the populated list with multiple dictionaries to a data frame
@@ -65,10 +69,23 @@ rules = association_rules(freq_items, metric="confidence", min_threshold=0.6)
 #use the gain formula provided right after.
 #prior = suportCount/len(encoded_vals) -> encoded_vals is the number of transactions
 #print("Gain in Confidence: " + str(100*(rule_confidence-prior)/prior))
+for i in range(len(rules)):
+    antecendents = list(rules.loc[i]['antecedents'])
+    consequents = list(rules.loc[i]['consequents'])
+    support = rules.loc[i]['support']
+    confidence = rules.loc[i]['confidence']
+    
+    supportCount = support*len(df.index)
+    
+    prior = supportCount/len(encoded_vals)
+    gain_in_conf = str(100*((confidence - prior)/prior))
 
-prior = suportCount/len(encoded_vals) -> encoded_vals is the number of transactions
-print("Gain in Confidence: " + str(100*(rule_confidence-prior)/prior))
-
+    print("[] --> {}".format(antecendents, consequents))
+    print("Support: {}".format(support))
+    print("Confidence {}".format(confidence))
+    print("Prior: {}".format(prior))
+    print("Gain in Confidence: {}".format(gain_in_conf))
+    print()
 #Finally, plot support x confidence
 plt.scatter(rules['support'], rules['confidence'], alpha=0.5)
 plt.xlabel('support')
