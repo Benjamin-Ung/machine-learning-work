@@ -65,7 +65,9 @@ rules = association_rules(freq_items, metric="confidence", min_threshold=0.6)
 #use the gain formula provided right after.
 #prior = suportCount/len(encoded_vals) -> encoded_vals is the number of transactions
 #print("Gain in Confidence: " + str(100*(rule_confidence-prior)/prior))
-#-->add your python code below
+
+prior = suportCount/len(encoded_vals) -> encoded_vals is the number of transactions
+print("Gain in Confidence: " + str(100*(rule_confidence-prior)/prior))
 
 #Finally, plot support x confidence
 plt.scatter(rules['support'], rules['confidence'], alpha=0.5)
